@@ -1,0 +1,77 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        // Read number of test cases
+        int tc = Integer.parseInt(br.readLine().trim());
+
+        while (tc-- > 0) {
+
+            // Read input line
+            String input = br.readLine();
+
+            // Split the input line by spaces
+            String[] inputArray = input.split("\\s+");
+
+            // Create a list to store the integers
+            ArrayList<Integer> arr = new ArrayList<>();
+
+            // Parse each element to integer and add to list
+            for (String s : inputArray) {
+                arr.add(Integer.parseInt(s));
+            }
+
+            // Call rearrange function to rearrange the array
+            new Solution().rearrange(arr);
+
+            // Print the rearranged array
+            for (int num : arr) {
+                System.out.print(num + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+class Solution {
+    void rearrange(ArrayList<Integer> arr) {
+        List<Integer> pos = new ArrayList<>();
+        List<Integer> neg = new ArrayList<>();
+
+        // Separate positive and negative numbers
+        for (int n : arr) {
+            if (n >= 0)
+                pos.add(n);
+            else
+                neg.add(n);
+        }
+
+        int i = 0, k = 0;
+        // Alternate between positive and negative numbers
+        while (i < pos.size() && i < neg.size()) {
+            arr.set(k, pos.get(i));
+            arr.set(k + 1, neg.get(i));
+            i++;
+            k += 2;
+        }
+
+        // Add remaining positive numbers
+        while (i < pos.size()) {
+            arr.set(k, pos.get(i));
+            k++;
+            i++;
+        }
+
+        // Add remaining negative numbers
+        while (i < neg.size()) {
+            arr.set(k, neg.get(i));
+            k++;
+            i++;
+        }
+    }
+}
